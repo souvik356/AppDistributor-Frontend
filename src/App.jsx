@@ -14,7 +14,7 @@ import { addUser } from "./store/UserSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const appRouter = createBrowserRouter([
     {
       path: "/",
@@ -22,36 +22,64 @@ function App() {
     },
     {
       path: "dashboard",
-      element: <ProtectedRoute><MainBody/></ProtectedRoute>,
+      element: (
+        <ProtectedRoute>
+          <MainBody />
+        </ProtectedRoute>
+      ),
       children: [
         {
           path: "dashboard",
-          element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
+          element: (
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "release/:appId",
-          element: <ProtectedRoute><Release /></ProtectedRoute>,
+          element: (
+            <ProtectedRoute>
+              <Release />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "application",
-          element: <ProtectedRoute><Application /></ProtectedRoute>,
+          element: (
+            <ProtectedRoute>
+              <Application />
+            </ProtectedRoute>
+          ),
         },
       ],
     },
   ]);
 
-  useEffect(()=>{
-    fetchUser()
-  },[])
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-  const fetchUser = async()=>{
-    const user = await fetchUserDetails()
-    dispatch(addUser({userId: user._id,name:user.name,email:user.email,role: user.role,mobile: user.mobileNumber}))
-  }
+  const fetchUser = async () => {
+    const user = await fetchUserDetails();
+    dispatch(
+      addUser({
+        userId: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        mobile: user.mobileNumber,
+      })
+    );
+  };
   return (
     <>
       <RouterProvider router={appRouter} />
-      <ToastContainer position="top-center" autoClose={3000} style={{ marginTop: '60px' }} />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        style={{ marginTop: "60px" }}
+      />
     </>
   );
 }

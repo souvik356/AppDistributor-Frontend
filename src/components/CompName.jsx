@@ -15,7 +15,7 @@ const CompName = () => {
       setCompName("Dashboard");
     } else if (pathname === "/dashboard/application") {
       setCompName("Application");
-    } else if (pathname === "/dashboard/release") {
+    } else if (pathname.startsWith("/dashboard/release/")) {
       setCompName("Release");
     }
   }, [pathname]);

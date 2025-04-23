@@ -89,7 +89,9 @@ const ApplicationTable = () => {
                 } shadow-md rounded-md font-semibold`}
               >
                 <td className="pl-4 sm:pl-10 p-2 sm:p-4 rounded-l-md">
-                  <Link to={`/release/${app._id}`}>{app.appName}</Link>
+                  <Link to={`/dashboard/release/${app._id}`}>
+                    {app.appName}
+                  </Link>
                 </td>
                 <td className="p-2 sm:p-4">{app.osType}</td>
                 <td className="p-2 sm:p-4">{app.releaseType}</td>
