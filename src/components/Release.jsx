@@ -1,7 +1,7 @@
 import React from "react";
-import searchIcon from "../assets/searchIcon.svg";
-import filterIcon from "../assets/filterIcon.svg";
 import goBackIcon from "../assets/GoBackIcon.svg";
+import filterIcon from "../assets/filterIcon.svg";
+import searchIcon from "../assets/searchIcon.svg";
 const Release = () => {
   return (
     <div>

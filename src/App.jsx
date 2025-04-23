@@ -29,7 +29,7 @@ function App() {
           element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
         },
         {
-          path: "release",
+          path: "release/:appId",
           element: <ProtectedRoute><Release /></ProtectedRoute>,
         },
         {
