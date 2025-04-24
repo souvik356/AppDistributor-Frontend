@@ -1,64 +1,20 @@
-import Cookies from "js-cookie";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import deleteIcon from "../assets/deleteIcon.svg";
 import editIcon from "../assets/editIcon.svg";
-import { fetchAppList } from "../store/getAppListSlice";
-const ApplicationTable = () => {
-  //   const applications = [
-  //     {
-  //       name: "Instagram",
-  //       os: "Android",
-  //       releaseType: "Beta",
-  //       platform: "Flutter",
-  //     },
-  //     {
-  //       name: "Play Store",
-  //       os: "Android",
-  //       releaseType: "Production",
-  //       platform: "Kotlin",
-  //     },
-  //     {
-  //       name: "Whatsapp",
-  //       os: "Android",
-  //       releaseType: "Beta",
-  //       platform: "Java",
-  //     },
-  //     {
-  //       name: "Whatsapp",
-  //       os: "Android",
-  //       releaseType: "Beta",
-  //       platform: "Java",
-  //     },
-  //     {
-  //       name: "Whatsapp",
-  //       os: "Android",
-  //       releaseType: "Beta",
-  //       platform: "Java",
-  //     },
-  //     {
-  //       name: "Whatsapp",
-  //       os: "Android",
-  //       releaseType: "Beta",
-  //       platform: "Java",
-  //     },
-  //   ];
-  const dispatch = useDispatch();
-  const accessToken = Cookies.get("token");
-  console.log(accessToken);
-  const {
-    items: applicationList,
-    isLoading,
-    isError,
-  } = useSelector((state) => state.getAppList);
-  console.log("appList from Redux:", applicationList, isLoading, isError);
-
-  useEffect(() => {
-    if (accessToken) {
-      dispatch(fetchAppList(accessToken));
-    }
-  }, [dispatch, accessToken]);
+import AppDeleteModal from "./AppDeleteModal";
+const ApplicationTable = ({ applications }) => {
+  console.log(applications);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+  const handleDelete = (appId) => {
+    setSelectedApplicationId(appId);
+    setShowDeleteModal(true);
+  };
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false); // Close the delete modal
+  };
+  const navigate = useNavigate();
 
   return (
     <div className="h-full  overflow-hidden  rounded-tl-xl shadow-sm">
@@ -81,17 +37,16 @@ const ApplicationTable = () => {
       <div className="overflow-y-auto  h-full ">
         <table className="w-full mb-22 table-fixed border-separate border-spacing-y-2 sm:border-spacing-y-3">
           <tbody className="text-sm md:text-lg text-black">
-            {applicationList.map((app, index) => (
+            {applications.map((app, index) => (
               <tr
-                key={index}
+                key={app._id}
+                onClick={() => navigate(`/dashboard/release/${app._id}`)}
                 className={`${
                   index % 2 === 0 ? "bg-white" : "bg-[#3777F61A]"
-                } shadow-md rounded-md font-semibold`}
+                } shadow-md rounded-md font-semibold hover:bg-gray-100 transition-colors`}
               >
                 <td className="pl-4 sm:pl-10 p-2 sm:p-4 rounded-l-md">
-                  <Link to={`/dashboard/release/${app._id}`}>
-                    {app.appName}
-                  </Link>
+                  {app.appName}
                 </td>
                 <td className="p-2 sm:p-4">{app.osType}</td>
                 <td className="p-2 sm:p-4">{app.releaseType}</td>
@@ -106,6 +61,10 @@ const ApplicationTable = () => {
                     <img
                       src={deleteIcon}
                       alt="Delete"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent row click
+                        handleDelete(app._id);
+                      }}
                       className="w-4 h-4 md:w-8 sm:h-6 cursor-pointer"
                     />
                   </div>
@@ -114,6 +73,12 @@ const ApplicationTable = () => {
             ))}
           </tbody>
         </table>
+        {showDeleteModal && (
+          <AppDeleteModal
+            onClose={closeDeleteModal}
+            appId={selectedApplicationId}
+          />
+        )}
       </div>
     </div>
   );

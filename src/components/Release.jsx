@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { fetchReleaseData } from "@/store/getReleaseDataSlice";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import goBackIcon from "../assets/GoBackIcon.svg";
 import filterIcon from "../assets/filterIcon.svg";
 import searchIcon from "../assets/searchIcon.svg";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import ReleaseDrawer from "./ReleaseDrawer";
-import { fetchReleaseData } from "@/store/getReleaseDataSlice";
 import ReleaseTable from "./ReleaseTable";
 const Release = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -71,7 +71,6 @@ const Release = () => {
           <p className="text-2xl font-bold leading-8">
             You have no releases yet
           </p>
-          <p>Start distributing your app among your teams and testers.</p>
         </div>
       )}
 

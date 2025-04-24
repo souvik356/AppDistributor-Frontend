@@ -6,7 +6,7 @@ export const postUploadBuildData = createAsyncThunk(
   async (buildData) => {
     try {
       console.log("buildData", buildData);
-      const accessToken = Cookies.get("accessToken");
+      const accessToken = Cookies.get("token");
 
       console.log("at", accessToken);
       if (!accessToken) {

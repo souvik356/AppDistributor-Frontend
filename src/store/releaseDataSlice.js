@@ -10,7 +10,7 @@ export const postReleaseData = createAsyncThunk(
         releaseData;
       console.log("fileSize", fileSize);
       console.log("appId", appId);
-      const accessToken = Cookies.get("accessToken");
+      const accessToken = Cookies.get("token");
 
       console.log("at", accessToken);
       if (!accessToken) {

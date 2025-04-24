@@ -5,10 +5,12 @@ import DeleteModal from "./DeleteModal";
 
 const ReleaseTable = ({ releases, appId }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const handleDelete = () => {
-    setShowDeleteModal(true); // Show the delete modal
-  };
+  const [selectedReleaseId, setSelectedReleaseId] = useState(null);
 
+  const handleDelete = (releaseId) => {
+    setSelectedReleaseId(releaseId);
+    setShowDeleteModal(true);
+  };
   const closeDeleteModal = () => {
     setShowDeleteModal(false); // Close the delete modal
   };
@@ -69,7 +71,6 @@ const ReleaseTable = ({ releases, appId }) => {
                   {release.buildNumber}
                 </td>
                 <td className="p-2 sm:p-4">{release.version}</td>
-                {/* <td className="p-2 sm:p-4">Beta</td> */}
                 <td className="p-2 sm:p-4 rounded-r-md">
                   <div className="flex justify-start ml-4 space-x-2">
                     <img
@@ -80,22 +81,22 @@ const ReleaseTable = ({ releases, appId }) => {
                     <img
                       src={deleteIcon}
                       alt="Delete"
-                      onClick={handleDelete}
+                      onClick={() => handleDelete(release._id)}
                       className="w-4 h-4 md:w-8 sm:h-6 cursor-pointer"
                     />
                   </div>
                 </td>
-                {showDeleteModal && (
-                  <DeleteModal
-                    onClose={closeDeleteModal}
-                    releaseId={release._id}
-                    appId={appId}
-                  />
-                )}
               </tr>
             ))}
           </tbody>
         </table>
+        {showDeleteModal && (
+          <DeleteModal
+            onClose={closeDeleteModal}
+            releaseId={selectedReleaseId}
+            appId={appId}
+          />
+        )}
       </div>
     </div>
   );
